@@ -26,7 +26,7 @@ build-frontend:
                         echo "$(BLOCKSCOUT_FRONTEND_APP_NAME) already exists. Skipping build."; \
         else \
                         echo "Building $(BLOCKSCOUT_FRONTEND_APP_NAME)"; \
-                         cd /data/xone-explorer && docker build --build-arg GIT_COMMIT_SHA=$(git rev-parse --short HEAD) --build-arg GIT_TAG=$(git describe --tags --abbrev=0) -t $(BLOCKSCOUT_FRONTEND_APP_NAME) ./; \
+                         cd ~/blockscout-src/frontend && docker build --build-arg GIT_COMMIT_SHA=$(git rev-parse --short HEAD) --build-arg GIT_TAG=$(git describe --tags --abbrev=0) -t $(BLOCKSCOUT_FRONTEND_APP_NAME) ./; \
         fi
 
 
