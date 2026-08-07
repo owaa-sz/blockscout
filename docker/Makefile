@@ -13,8 +13,24 @@ PG_CONTAINER_NAME := postgres
 RELEASE_VERSION ?= '11.2.4'
 TAG := $(RELEASE_VERSION)-commit-$(shell git log -1 --pretty=format:"%h")
 STABLE_TAG := $(RELEASE_VERSION)
+BLOCKSCOUT_FRONTEND_APP_NAME := blockscout-frontend:local
 
-start:
+restart: stop start
+
+
+build-frontend:
+        @echo "Checking if $(BLOCKSCOUT_FRONTEND_APP_NAME) exists..."
+        @docker images -q $(BLOCKSCOUT_FRONTEND_APP_NAME) > .docker_image_id
+        @cat .docker_image_id
+        @if [ -s .docker_image_id ]; then \
+                        echo "$(BLOCKSCOUT_FRONTEND_APP_NAME) already exists. Skipping build."; \
+        else \
+                        echo "Building $(BLOCKSCOUT_FRONTEND_APP_NAME)"; \
+                         cd /data/xone-explorer && docker build --build-arg GIT_COMMIT_SHA=$(git rev-parse --short HEAD) --build-arg GIT_TAG=$(git describe --tags --abbrev=0) -t $(BLOCKSCOUT_FRONTEND_APP_NAME) ./; \
+        fi
+
+
+start: build-frontend
 	@echo "==> Starting blockscout db"
 	@docker-compose -f ../docker-compose/services/db.yml up -d
 	@echo "==> Starting blockscout backend"
