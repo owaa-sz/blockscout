@@ -12,6 +12,7 @@ services:
       - 'host.docker.internal:host-gateway'
     env_file:
       -  ../envs/common-blockscout.env
+      - ../envs/private-mainnet.env
     volumes:
       - ./logs/:/app/logs/
       - ./dets/:/app/dets/

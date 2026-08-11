@@ -3,7 +3,6 @@ version: '3.9'
 services:
   frontend:
     image: blockscout-frontend:local # 自定义的本地docker容器名称
-    pull_policy: always
     platform: linux/amd64
     restart: always
     container_name: 'frontend'

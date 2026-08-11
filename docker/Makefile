@@ -19,15 +19,15 @@ restart: stop start
 
 
 build-frontend:
-        @echo "Checking if $(BLOCKSCOUT_FRONTEND_APP_NAME) exists..."
-        @docker images -q $(BLOCKSCOUT_FRONTEND_APP_NAME) > .docker_image_id
-        @cat .docker_image_id
-        @if [ -s .docker_image_id ]; then \
-                        echo "$(BLOCKSCOUT_FRONTEND_APP_NAME) already exists. Skipping build."; \
-        else \
-                        echo "Building $(BLOCKSCOUT_FRONTEND_APP_NAME)"; \
-                         cd ~/blockscout-src/frontend && docker build --build-arg GIT_COMMIT_SHA=$(git rev-parse --short HEAD) --build-arg GIT_TAG=$(git describe --tags --abbrev=0) -t $(BLOCKSCOUT_FRONTEND_APP_NAME) ./; \
-        fi
+	@echo "Checking if $(BLOCKSCOUT_FRONTEND_APP_NAME) exists..."
+	@docker images -q $(BLOCKSCOUT_FRONTEND_APP_NAME) > .docker_image_id
+	@cat .docker_image_id
+	@if [ -s .docker_image_id ]; then \
+	                echo "$(BLOCKSCOUT_FRONTEND_APP_NAME) already exists. Skipping build."; \
+	else \
+	                echo "Building $(BLOCKSCOUT_FRONTEND_APP_NAME)"; \
+	                 cd ~/blockscout-src/frontend && docker build --build-arg GIT_COMMIT_SHA=$(git rev-parse --short HEAD) --build-arg GIT_TAG=$(git describe --tags --abbrev=0) -t $(BLOCKSCOUT_FRONTEND_APP_NAME) ./; \
+	fi
 
 
 start: build-frontend
